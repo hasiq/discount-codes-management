@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,11 +21,12 @@ public class PromoCodeEntity {
     @Id
     private String code;
 
+
     private Double discount;
 
     private String currency;
 
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
 
     private int maxUsages;
 
