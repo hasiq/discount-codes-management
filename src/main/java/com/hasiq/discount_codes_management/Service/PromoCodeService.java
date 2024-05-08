@@ -3,6 +3,7 @@ package com.hasiq.discount_codes_management.Service;
 import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
 import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class PromoCodeService {
                 return ResponseEntity.badRequest().build();
         }
         promoCodeEntity.setLeftUsages(promoCodeEntity.getMaxUsages());
-        return ResponseEntity.ok(promoCodeRepository.save(promoCodeEntity));
+        return new ResponseEntity<>(promoCodeRepository.save(promoCodeEntity), HttpStatus.CREATED);
     }
 
     @PostConstruct

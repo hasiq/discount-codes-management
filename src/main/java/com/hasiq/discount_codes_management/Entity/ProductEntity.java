@@ -13,7 +13,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ProductEntity {
 
     @Id
@@ -27,4 +26,11 @@ public class ProductEntity {
     private String description;
 
     private String currency;
+
+    public ProductEntity(String name, Double price, String description, String currency) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.currency = currency;
+    }
 }
