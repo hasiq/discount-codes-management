@@ -14,13 +14,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Table(name = "PromoCode")
-@AllArgsConstructor
 @NoArgsConstructor
 public class PromoCodeEntity {
 
     @Id
     private String code;
-
 
     private Double discount;
 
@@ -30,4 +28,13 @@ public class PromoCodeEntity {
 
     private int maxUsages;
 
+    private int leftUsages;
+
+    public PromoCodeEntity(String code, Double discount, String currency, LocalDate expirationDate, int maxUsages) {
+        this.code = code;
+        this.discount = discount;
+        this.currency = currency;
+        this.expirationDate = expirationDate;
+        this.maxUsages = maxUsages;
+    }
 }

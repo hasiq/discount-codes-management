@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,6 +20,24 @@ public class PromoCodeService {
 
     public ResponseEntity<List<PromoCodeEntity>> findAll() {
         return ResponseEntity.ok(promoCodeRepository.findAll());
+    }
+
+    public ResponseEntity<PromoCodeEntity> findByCode(String code) {
+        if(promoCodeRepository.existsByCode(code))
+            return ResponseEntity.ok(promoCodeRepository.findByCode(code));
+        else
+            return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<PromoCodeEntity> save(PromoCodeEntity promoCodeEntity) {
+        if(promoCodeEntity.getCode().length() < 3 || promoCodeEntity.getCode().length() > 24 || promoCodeRepository.existsByCode(promoCodeEntity.getCode()))
+            return ResponseEntity.badRequest().build();
+        for(int i = 0; i < promoCodeEntity.getCode().length(); i++){
+            if(!Character.isLetterOrDigit(promoCodeEntity.getCode().charAt(i)))
+                return ResponseEntity.badRequest().build();
+        }
+        promoCodeEntity.setLeftUsages(promoCodeEntity.getMaxUsages());
+        return ResponseEntity.ok(promoCodeRepository.save(promoCodeEntity));
     }
 
     @PostConstruct

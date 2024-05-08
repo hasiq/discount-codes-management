@@ -12,9 +12,10 @@ public interface PromoCodeRepository extends JpaRepository<PromoCodeEntity, Stri
     @Override
     List<PromoCodeEntity> findAll();
 
-    @Override
-    PromoCodeEntity getOne(String s);
+    PromoCodeEntity findByCode(String code);
 
     @Override
     <S extends PromoCodeEntity> S save(S s);
+
+    Boolean existsByCode(String code);
 }
