@@ -27,4 +27,12 @@ public class PurchaseEntity {
 
     @ManyToOne
     private ProductEntity productEntity;
+
+    public PurchaseEntity(LocalDate purchaseDate, Double regularPrice, Double discountPrice, String currency, ProductEntity productEntity) {
+        this.purchaseDate = purchaseDate;
+        this.regularPrice = regularPrice;
+        this.discountPrice = discountPrice;
+        this.currency = currency;
+        this.productEntity = productEntity;
+    }
 }
