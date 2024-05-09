@@ -25,10 +25,7 @@ public class DiscountService {
         this.promoCodeRepository = promoCodeRepository;
     }
 
-    public ResponseEntity<Map<String, String>> getDiscountPrice(Map<String,String> discount, Long id) {
-        if(!discount.containsKey("discount"))
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        String code = discount.get("discount");
+    public ResponseEntity<Map<String, String>> getDiscountPrice(String code, Long id) {
        if(!(productRepository.existsById(id) && promoCodeRepository.existsByCode(code))) {
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
            }
@@ -55,6 +52,7 @@ public class DiscountService {
               response.put("Price", String.valueOf(0.0));
               return new ResponseEntity<>(response, HttpStatus.OK);
           }
+
           response.put("Price", String.valueOf(product.getPrice() - discountCode.getDiscount()));
           return new ResponseEntity<>(response, HttpStatus.OK);
     }

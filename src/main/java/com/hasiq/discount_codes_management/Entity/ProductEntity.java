@@ -1,18 +1,19 @@
 package com.hasiq.discount_codes_management.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "Product")
 public class ProductEntity {
 
     @Id
@@ -26,6 +27,7 @@ public class ProductEntity {
     private String description;
 
     private String currency;
+
 
     public ProductEntity(String name, Double price, String description, String currency) {
         this.name = name;
