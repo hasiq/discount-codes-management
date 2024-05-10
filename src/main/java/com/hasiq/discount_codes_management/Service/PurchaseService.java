@@ -27,25 +27,43 @@ public class PurchaseService {
     private final ProductRepository productRepository;
 
     private final PromoCodeRepository promoCodeRepository;
+    private final ProductService productService;
+    private final PromoCodeService promoCodeService;
 
 
-    public PurchaseService(DiscountService discountService, PurchaseRepository purchaseRepository, ProductRepository productRepository, PromoCodeRepository promoCodeRepository, JdbcTemplate jdbcTemplate) {
+    public PurchaseService(DiscountService discountService, PurchaseRepository purchaseRepository, ProductRepository productRepository, PromoCodeRepository promoCodeRepository, JdbcTemplate jdbcTemplate, ProductService productService, PromoCodeService promoCodeService) {
         this.discountService = discountService;
         this.purchaseRepository = purchaseRepository;
         this.productRepository = productRepository;
         this.promoCodeRepository = promoCodeRepository;
+        this.productService = productService;
+        this.promoCodeService = promoCodeService;
     }
 
     public ResponseEntity<PurchaseEntity> purchase(Long productId, String code){
         Map<String, String> map =  discountService.getDiscountPrice(code, productId).getBody();
+        PromoCodeEntity promoCode = promoCodeService.findByCode(code).getBody();
         if(map == null || map.isEmpty())
             return ResponseEntity.notFound().build();
         if(map.containsKey("Warning"))
             return ResponseEntity.badRequest().body(null);
         ProductEntity product = productRepository.findById(productId).get();
-        PurchaseEntity purchase = new PurchaseEntity(LocalDate.now(), product.getPrice(), Double.valueOf(map.get("Price")) + product.getPrice(),product.getCurrency(),product);
+        PurchaseEntity purchase = new PurchaseEntity();
+        if(!promoCode.getIsPercent()) {
+           purchase.setPurchaseDate(LocalDate.now());
+           purchase.setRegularPrice(product.getPrice());
+           purchase.setDiscountPrice(promoCode.getDiscount());
+           purchase.setCurrency(product.getCurrency());
+           purchase.setProductEntity(product);
+        }
+        else{
+            purchase.setPurchaseDate(LocalDate.now());
+            purchase.setRegularPrice(product.getPrice());
+            purchase.setDiscountPrice(product.getPrice() * promoCode.getDiscount() / 100);
+            purchase.setCurrency(product.getCurrency());
+            purchase.setProductEntity(product);
+        }
         purchaseRepository.save(purchase);
-        PromoCodeEntity promoCode = promoCodeRepository.findByCode(code);
         promoCode.setLeftUsages(promoCode.getLeftUsages() - 1);
         promoCodeRepository.save(promoCode);
         return ResponseEntity.ok(purchase);

@@ -43,6 +43,6 @@ public class PromoCodeService {
 
     @PostConstruct
     public void init() {
-        promoCodeRepository.save(new PromoCodeEntity("AAAAxd",1.00,"PLN", LocalDate.now(),20));
+        promoCodeRepository.save(new PromoCodeEntity("AAAAxd",1.00,"PLN", LocalDate.now(),20, false));
     }
 }

@@ -30,6 +30,7 @@ public class ProductEntity {
     private String currency;
 
 
+
     public ProductEntity(String name, Double price, String description, String currency) {
         this.name = name;
         this.price = price;

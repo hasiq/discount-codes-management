@@ -52,8 +52,13 @@ public class DiscountService {
               response.put("Price", String.valueOf(0.0));
               return new ResponseEntity<>(response, HttpStatus.OK);
           }
-
-          response.put("Price", String.valueOf(product.getPrice() - discountCode.getDiscount()));
-          return new ResponseEntity<>(response, HttpStatus.OK);
+          if(discountCode.getIsPercent()) {
+              response.put("Price", String.valueOf(product.getPrice() - (discountCode.getDiscount() * product.getPrice() / 100)));
+              return new ResponseEntity<>(response, HttpStatus.OK);
+          }
+          else {
+              response.put("Price", String.valueOf(product.getPrice() - discountCode.getDiscount()));
+              return new ResponseEntity<>(response, HttpStatus.OK);
+          }
     }
 }
