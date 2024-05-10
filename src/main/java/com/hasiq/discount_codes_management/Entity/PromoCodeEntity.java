@@ -30,7 +30,7 @@ public class PromoCodeEntity {
 
     private int leftUsages;
 
-    private Boolean isPercent;
+    private Boolean isPercent = false;
 
     public PromoCodeEntity(String code, Double discount, String currency, LocalDate expirationDate, int maxUsages, boolean isPercent) {
         this.code = code;
