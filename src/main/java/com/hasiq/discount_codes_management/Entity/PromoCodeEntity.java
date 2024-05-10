@@ -30,11 +30,14 @@ public class PromoCodeEntity {
 
     private int leftUsages;
 
-    public PromoCodeEntity(String code, Double discount, String currency, LocalDate expirationDate, int maxUsages) {
+    private Boolean isPercent;
+
+    public PromoCodeEntity(String code, Double discount, String currency, LocalDate expirationDate, int maxUsages, boolean isPercent) {
         this.code = code;
         this.discount = discount;
         this.currency = currency;
         this.expirationDate = expirationDate;
         this.maxUsages = maxUsages;
+        this.isPercent = isPercent;
     }
 }
