@@ -22,7 +22,7 @@ public class ProductService {
     }
 
     public ResponseEntity<ProductEntity> save(ProductEntity productEntity) {
-        if(productEntity.getPrice() <= 0 || productEntity.getName().isBlank() || productEntity.getCurrency().isBlank())
+        if((productEntity.getName() == null || productEntity.getPrice() == null || productEntity.getCurrency() == null) || (productEntity.getPrice() <= 0) || productEntity.getName().isBlank() || productEntity.getCurrency().isBlank())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(productRepository.save(productEntity), HttpStatus.CREATED);
     }
