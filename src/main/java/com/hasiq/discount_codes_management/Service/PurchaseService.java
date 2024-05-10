@@ -49,19 +49,15 @@ public class PurchaseService {
             return ResponseEntity.badRequest().body(null);
         ProductEntity product = productRepository.findById(productId).get();
         PurchaseEntity purchase = new PurchaseEntity();
+        purchase.setPurchaseDate(LocalDate.now());
+        purchase.setRegularPrice(product.getPrice());
+        purchase.setCurrency(product.getCurrency());
+        purchase.setProductEntity(product);
         if(!promoCode.getIsPercent()) {
-           purchase.setPurchaseDate(LocalDate.now());
-           purchase.setRegularPrice(product.getPrice());
            purchase.setDiscountPrice(promoCode.getDiscount());
-           purchase.setCurrency(product.getCurrency());
-           purchase.setProductEntity(product);
         }
         else{
-            purchase.setPurchaseDate(LocalDate.now());
-            purchase.setRegularPrice(product.getPrice());
             purchase.setDiscountPrice(product.getPrice() * promoCode.getDiscount() / 100);
-            purchase.setCurrency(product.getCurrency());
-            purchase.setProductEntity(product);
         }
         purchaseRepository.save(purchase);
         promoCode.setLeftUsages(promoCode.getLeftUsages() - 1);
