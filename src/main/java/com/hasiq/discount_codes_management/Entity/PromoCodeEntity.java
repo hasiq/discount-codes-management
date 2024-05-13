@@ -1,5 +1,6 @@
 package com.hasiq.discount_codes_management.Entity;
 
+import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,7 +25,7 @@ public class PromoCodeEntity {
     @Column(nullable = false)
     private Double discount;
 
-    private String currency;
+    private CurrencyEnum currency;
 
     private LocalDate expirationDate;
 
@@ -34,7 +35,7 @@ public class PromoCodeEntity {
 
     private Boolean isPercent = false;
 
-    public PromoCodeEntity(String code, Double discount, String currency, LocalDate expirationDate, int maxUsages, boolean isPercent) {
+    public PromoCodeEntity(String code, Double discount, CurrencyEnum currency, LocalDate expirationDate, int maxUsages, boolean isPercent) {
         this.code = code;
         this.discount = discount;
         this.currency = currency;

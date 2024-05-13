@@ -1,5 +1,6 @@
 package com.hasiq.discount_codes_management.Entity;
 
+import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +24,12 @@ public class PurchaseEntity {
 
     private Double discountPrice;
 
-    private String currency;
+    private CurrencyEnum currency;
 
     @ManyToOne
     private ProductEntity productEntity;
 
-    public PurchaseEntity(LocalDate purchaseDate, Double regularPrice, Double discountPrice, String currency, ProductEntity productEntity) {
+    public PurchaseEntity(LocalDate purchaseDate, Double regularPrice, Double discountPrice, CurrencyEnum currency, ProductEntity productEntity) {
         this.purchaseDate = purchaseDate;
         this.regularPrice = regularPrice;
         this.discountPrice = discountPrice;

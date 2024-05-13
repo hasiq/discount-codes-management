@@ -7,6 +7,7 @@ import com.hasiq.discount_codes_management.Entity.PurchaseEntity;
 import com.hasiq.discount_codes_management.Repository.ProductRepository;
 import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
 import com.hasiq.discount_codes_management.Repository.PurchaseRepository;
+import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -74,7 +75,7 @@ public class PurchaseService {
         List<SalesReportDTO> dtos = new ArrayList<>();
         for(Object[] row : rows){
             SalesReportDTO dto = new SalesReportDTO();
-            dto.setCurrency((String)row[0]);
+            dto.setCurrency(CurrencyEnum.getById(Byte.parseByte(row[0].toString())).toString());
             dto.setTotalDiscount(convertToDouble(row[1]));
             dto.setTotalAmount((convertToDouble(row[2])));
             dto.setNumberOfPurchases(Math.toIntExact((Long) row[3]));

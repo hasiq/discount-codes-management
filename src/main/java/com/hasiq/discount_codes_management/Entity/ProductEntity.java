@@ -1,5 +1,6 @@
 package com.hasiq.discount_codes_management.Entity;
 
+import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
 import jakarta.persistence.*;
 import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
@@ -27,11 +28,11 @@ public class ProductEntity {
 
     private String description;
 
-    private String currency;
+    private CurrencyEnum currency;
 
 
 
-    public ProductEntity(String name, Double price, String description, String currency) {
+    public ProductEntity(String name, Double price, String description, CurrencyEnum currency) {
         this.name = name;
         this.price = price;
         this.description = description;
