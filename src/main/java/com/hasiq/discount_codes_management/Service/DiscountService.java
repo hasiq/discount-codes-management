@@ -48,7 +48,7 @@ public class DiscountService {
             response.put("Warning", "Discount Code has no usages");
             return new ResponseEntity<>(response, HttpStatus.CONFLICT);
           }
-          else if (product.getPrice() - discountCode.getDiscount() < 0) {
+          else if (product.getPrice() - discountCode.getDiscount() < 0 || discountCode.getDiscount() < 0) {
               response.put("Price", String.valueOf(0.0));
               return new ResponseEntity<>(response, HttpStatus.OK);
           }
