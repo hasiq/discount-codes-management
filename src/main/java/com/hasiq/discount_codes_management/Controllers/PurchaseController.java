@@ -26,7 +26,7 @@ public class PurchaseController {
         return purchaseService.purchase(discountDTO.getProductId(), discountDTO.getDiscountCode());
     }
 
-    @GetMapping("/raport")
+    @GetMapping("/report")
     public ResponseEntity<List<SalesReportDTO>> salesReport(){
         return purchaseService.salesReport();
     }
