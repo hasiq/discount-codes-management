@@ -22,7 +22,7 @@ public class PurchaseController {
     }
 
     @PostMapping("/purchase")
-    public ResponseEntity<PurchaseEntity> purchase(@RequestBody DiscountDTO discountDTO){
+    public ResponseEntity<?> purchase(@RequestBody DiscountDTO discountDTO){
         return purchaseService.purchase(discountDTO.getProductId(), discountDTO.getDiscountCode());
     }
 

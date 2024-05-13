@@ -8,6 +8,7 @@ import com.hasiq.discount_codes_management.Repository.ProductRepository;
 import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
 import com.hasiq.discount_codes_management.Repository.PurchaseRepository;
 import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -41,13 +42,13 @@ public class PurchaseService {
         this.promoCodeService = promoCodeService;
     }
 
-    public ResponseEntity<PurchaseEntity> purchase(Long productId, String code){
+    public ResponseEntity<?> purchase(Long productId, String code){
         Map<String, String> map =  discountService.getDiscountPrice(code, productId).getBody();
         PromoCodeEntity promoCode = promoCodeService.findByCode(code).getBody();
         if(map == null || map.isEmpty())
             return ResponseEntity.notFound().build();
         if(map.containsKey("Warning"))
-            return ResponseEntity.badRequest().body(null);
+            return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
         ProductEntity product = productRepository.findById(productId).get();
         PurchaseEntity purchase = new PurchaseEntity();
         purchase.setPurchaseDate(LocalDate.now());
@@ -75,7 +76,7 @@ public class PurchaseService {
         List<SalesReportDTO> dtos = new ArrayList<>();
         for(Object[] row : rows){
             SalesReportDTO dto = new SalesReportDTO();
-            dto.setCurrency(CurrencyEnum.getById(Byte.parseByte(row[0].toString())).toString());
+            dto.setCurrency(CurrencyEnum.getById(Byte.parseByte(row[0].toString())));
             dto.setTotalDiscount(convertToDouble(row[1]));
             dto.setTotalAmount((convertToDouble(row[2])));
             dto.setNumberOfPurchases(Math.toIntExact((Long) row[3]));
