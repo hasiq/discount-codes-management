@@ -42,8 +42,5 @@ public class PromoCodeService {
         return new ResponseEntity<>(promoCodeRepository.save(promoCodeEntity), HttpStatus.CREATED);
     }
 
-    @PostConstruct
-    public void init() {
-        promoCodeRepository.save(new PromoCodeEntity("AAAAxd",1.00, CurrencyEnum.PLN, LocalDate.now(),20, false));
-    }
+
 }
