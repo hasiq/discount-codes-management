@@ -110,5 +110,5 @@ public class ProductServiceTests {
 
         assertEquals(HttpStatus.BAD_REQUEST, productService.save(productEntity).getStatusCode());
     }
-    
+
 }
