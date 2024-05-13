@@ -17,7 +17,7 @@ public class DiscountController {
         this.discountService = discountService;
     }
 
-    @GetMapping("/discount")
+    @PostMapping("/discount")
     public ResponseEntity<Map<String,String>> getDiscount(@RequestBody DiscountDTO discountDTO){
         return discountService.getDiscountPrice(discountDTO.getDiscountCode(),discountDTO.getProductId());
     }

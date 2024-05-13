@@ -6,6 +6,7 @@ import com.hasiq.discount_codes_management.Entity.PurchaseEntity;
 import com.hasiq.discount_codes_management.Service.PurchaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class PurchaseController {
         this.purchaseService = purchaseService;
     }
 
-    @GetMapping("/purchase")
+    @PostMapping("/purchase")
     public ResponseEntity<PurchaseEntity> purchase(@RequestBody DiscountDTO discountDTO){
         return purchaseService.purchase(discountDTO.getProductId(), discountDTO.getDiscountCode());
     }

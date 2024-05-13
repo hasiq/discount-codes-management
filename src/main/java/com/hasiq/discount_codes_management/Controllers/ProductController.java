@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RequestMapping("/products")
 @RestController
 public class ProductController {
 
@@ -16,17 +16,17 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/product/all")
+    @GetMapping("")
     public ResponseEntity<List<ProductEntity>> findAll(){
         return productService.findAll();
     }
 
-    @PostMapping("/product/create")
+    @PostMapping("")
     public ResponseEntity<ProductEntity> create(@RequestBody ProductEntity productEntity){
         return productService.save(productEntity);
     }
 
-    @PutMapping("/product/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ProductEntity> update(@PathVariable Long id, @RequestBody ProductEntity productEntity){
         return productService.update(productEntity,id);
     }

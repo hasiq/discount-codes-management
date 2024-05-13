@@ -16,7 +16,8 @@ public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Long> 
 
     List<PurchaseEntity> findAll();
 
-    @Query(nativeQuery = true,value = "SELECT CURRENCY, SUM(DISCOUNT_PRICE) AS totalDiscount, SUM(REGULAR_PRICE) AS totalAmount, COUNT(*) AS numberOfPurchases  FROM PURCHASE_ENTITY GROUP BY CURRENCY")
+    @Query(nativeQuery = true, value = "SELECT CURRENCY, SUM(DISCOUNT_PRICE) AS totalDiscount, SUM(REGULAR_PRICE) AS totalAmount, COUNT(*) AS numberOfPurchases  FROM PURCHASE_ENTITY GROUP BY CURRENCY")
     List<Object[]> salesReport();
+
 
 }

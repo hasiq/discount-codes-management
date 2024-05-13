@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RequestMapping("/promoCodes")
 @RestController
 public class PromoCodesController {
 
@@ -16,17 +16,17 @@ public class PromoCodesController {
         this.promoCodeService = promoCodeService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<List<PromoCodeEntity>> findAll(){
         return promoCodeService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PromoCodeEntity> findById(@PathVariable String id){
-        return promoCodeService.findByCode(id);
+    @GetMapping("/{code}")
+    public ResponseEntity<PromoCodeEntity> findByCode(@PathVariable String code){
+        return promoCodeService.findByCode(code);
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<PromoCodeEntity> create(@RequestBody PromoCodeEntity promoCodeEntity){
         return promoCodeService.save(promoCodeEntity);
     }
