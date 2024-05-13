@@ -1,5 +1,6 @@
 package com.hasiq.discount_codes_management.Entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -20,6 +21,7 @@ public class PromoCodeEntity {
     @Id
     private String code;
 
+    @Column(nullable = false)
     private Double discount;
 
     private String currency;

@@ -31,7 +31,7 @@ public class PromoCodeService {
     }
 
     public ResponseEntity<PromoCodeEntity> save(PromoCodeEntity promoCodeEntity) {
-        if(promoCodeEntity.getCode() == null || promoCodeEntity.getCode().length() < 3 || promoCodeEntity.getCode().length() > 24 || promoCodeRepository.existsByCode(promoCodeEntity.getCode()))
+        if(promoCodeEntity.getExpirationDate() == null || promoCodeEntity.getCurrency() == null || promoCodeEntity.getDiscount() == null || promoCodeEntity.getCode() == null || promoCodeEntity.getCode().length() < 3 || promoCodeEntity.getCode().length() > 24 || promoCodeRepository.existsByCode(promoCodeEntity.getCode()))
             return ResponseEntity.badRequest().build();
         for(int i = 0; i < promoCodeEntity.getCode().length(); i++){
             if(!Character.isLetterOrDigit(promoCodeEntity.getCode().charAt(i)))
