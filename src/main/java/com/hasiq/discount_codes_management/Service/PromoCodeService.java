@@ -2,6 +2,7 @@ package com.hasiq.discount_codes_management.Service;
 
 import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
 import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
+import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,6 @@ public class PromoCodeService {
 
     @PostConstruct
     public void init() {
-        promoCodeRepository.save(new PromoCodeEntity("AAAAxd",1.00,"PLN", LocalDate.now(),20, false));
+        promoCodeRepository.save(new PromoCodeEntity("AAAAxd",1.00, CurrencyEnum.PLN, LocalDate.now(),20, false));
     }
 }
