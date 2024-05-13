@@ -83,7 +83,7 @@ Body :
   
   "leftUsages" : 20, [Optional]
   
-  "isPercent" : false [Optiona]
+  "isPercent" : false [Optional]
   
 }
 
