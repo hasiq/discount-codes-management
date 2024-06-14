@@ -1,7 +1,7 @@
-package com.hasiq.discount_codes_management.Service;
+package com.hasiq.discount_codes_management.service;
 
-import com.hasiq.discount_codes_management.Entity.ProductEntity;
-import com.hasiq.discount_codes_management.Repository.ProductRepository;
+import com.hasiq.discount_codes_management.entity.ProductEntity;
+import com.hasiq.discount_codes_management.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,17 +17,17 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public ResponseEntity<List<ProductEntity>> findAll() {
-        return ResponseEntity.ok(productRepository.findAll());
+    public List<ProductEntity> findAll() {
+        return productRepository.findAll();
     }
 
-    public ResponseEntity<ProductEntity> save(ProductEntity productEntity) {
+    public ProductEntity save(ProductEntity productEntity) {
         if((productEntity.getName() == null || productEntity.getPrice() == null || productEntity.getCurrency() == null) || (productEntity.getPrice() <= 0) || productEntity.getName().isBlank() || productEntity.getCurrency().toString().isBlank())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(productRepository.save(productEntity), HttpStatus.CREATED);
+            return null;
+        return productRepository.save(productEntity);
     }
 
-    public ResponseEntity<ProductEntity> update(ProductEntity productEntity, Long id) {
+    public ProductEntity update(ProductEntity productEntity, Long id) {
         if(productRepository.findById(id).isPresent()) {
             ProductEntity productEntity1 = productRepository.findById(id).get();
             productEntity1.setName(productEntity.getName());
@@ -35,8 +35,8 @@ public class ProductService {
             productEntity1.setDescription(productEntity.getDescription());
             productEntity1.setCurrency(productEntity.getCurrency());
             productRepository.save(productEntity1);
-            return ResponseEntity.ok(productEntity1);
+            return productEntity1;
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return null;
     }
 }

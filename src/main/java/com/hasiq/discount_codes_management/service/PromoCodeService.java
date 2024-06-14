@@ -1,14 +1,11 @@
-package com.hasiq.discount_codes_management.Service;
+package com.hasiq.discount_codes_management.service;
 
-import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
-import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
-import jakarta.annotation.PostConstruct;
+import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
+import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,26 +17,31 @@ public class PromoCodeService {
         this.promoCodeRepository = promoCodeRepository;
     }
 
-    public ResponseEntity<List<PromoCodeEntity>> findAll() {
-        return ResponseEntity.ok(promoCodeRepository.findAll());
+    public List<PromoCodeEntity> findAll() {
+        return promoCodeRepository.findAll();
     }
 
-    public ResponseEntity<PromoCodeEntity> findByCode(String code) {
-        if(promoCodeRepository.existsByCode(code))
-            return ResponseEntity.ok(promoCodeRepository.findByCode(code));
+    public PromoCodeEntity findByCode(String code) {
+        PromoCodeEntity promoCodeEntity = promoCodeRepository.findByCode(code);
+        if(promoCodeEntity != null) {
+            return promoCodeRepository.findByCode(code);
+            }
         else
-            return ResponseEntity.notFound().build();
+            return null;
     }
 
-    public ResponseEntity<PromoCodeEntity> save(PromoCodeEntity promoCodeEntity) {
+    public PromoCodeEntity save(PromoCodeEntity promoCodeEntity) {
         if(promoCodeEntity.getLeftUsages() > promoCodeEntity.getMaxUsages() || promoCodeEntity.getExpirationDate() == null || promoCodeEntity.getCurrency() == null || promoCodeEntity.getDiscount() == null || promoCodeEntity.getCode() == null || promoCodeEntity.getCode().length() < 3 || promoCodeEntity.getCode().length() > 24 || promoCodeRepository.existsByCode(promoCodeEntity.getCode()))
-            return ResponseEntity.badRequest().build();
+            return null;
         for(int i = 0; i < promoCodeEntity.getCode().length(); i++){
             if(!Character.isLetterOrDigit(promoCodeEntity.getCode().charAt(i)))
-                return ResponseEntity.badRequest().build();
+                return null;
+        }
+        if(promoCodeEntity.getIsPercent() && promoCodeEntity.getDiscount() > 100) {
+            return null;
         }
         promoCodeEntity.setLeftUsages(promoCodeEntity.getMaxUsages());
-        return new ResponseEntity<>(promoCodeRepository.save(promoCodeEntity), HttpStatus.CREATED);
+        return  promoCodeRepository.save(promoCodeEntity);
     }
 
 

@@ -1,14 +1,10 @@
-package com.hasiq.discount_codes_management.Entity;
+package com.hasiq.discount_codes_management.entity;
 
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
+import com.hasiq.discount_codes_management.tools.CurrencyEnum;
 import jakarta.persistence.*;
-import jdk.jfr.Name;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Getter

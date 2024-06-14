@@ -1,6 +1,6 @@
-package com.hasiq.discount_codes_management.Repository;
+package com.hasiq.discount_codes_management.repository;
 
-import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
+import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,8 @@
-package com.hasiq.discount_codes_management.Repository;
+package com.hasiq.discount_codes_management.repository;
 
-import com.hasiq.discount_codes_management.DTO.SalesReportDTO;
-import com.hasiq.discount_codes_management.Entity.PurchaseEntity;
-import jakarta.persistence.Tuple;
+import com.hasiq.discount_codes_management.entity.PurchaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 

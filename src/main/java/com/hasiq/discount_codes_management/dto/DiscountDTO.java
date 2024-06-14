@@ -1,4 +1,4 @@
-package com.hasiq.discount_codes_management.DTO;
+package com.hasiq.discount_codes_management.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

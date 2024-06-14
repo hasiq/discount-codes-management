@@ -1,4 +1,4 @@
-package com.hasiq.discount_codes_management.Tools;
+package com.hasiq.discount_codes_management.tools;
 
 public enum CurrencyEnum {
     PLN,

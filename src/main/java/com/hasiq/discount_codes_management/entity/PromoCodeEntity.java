@@ -1,11 +1,10 @@
-package com.hasiq.discount_codes_management.Entity;
+package com.hasiq.discount_codes_management.entity;
 
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
+import com.hasiq.discount_codes_management.tools.CurrencyEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

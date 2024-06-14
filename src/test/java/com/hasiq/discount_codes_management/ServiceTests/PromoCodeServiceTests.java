@@ -1,11 +1,10 @@
 package com.hasiq.discount_codes_management.ServiceTests;
 
-import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
-import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
-import com.hasiq.discount_codes_management.Service.PromoCodeService;
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
+import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
+import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
+import com.hasiq.discount_codes_management.service.PromoCodeService;
+import com.hasiq.discount_codes_management.tools.CurrencyEnum;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

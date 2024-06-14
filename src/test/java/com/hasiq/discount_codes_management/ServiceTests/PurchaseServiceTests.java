@@ -1,19 +1,18 @@
 package com.hasiq.discount_codes_management.ServiceTests;
 
-import com.hasiq.discount_codes_management.DTO.SalesReportDTO;
-import com.hasiq.discount_codes_management.Entity.ProductEntity;
-import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
-import com.hasiq.discount_codes_management.Entity.PurchaseEntity;
-import com.hasiq.discount_codes_management.Repository.ProductRepository;
-import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
-import com.hasiq.discount_codes_management.Repository.PurchaseRepository;
-import com.hasiq.discount_codes_management.Service.DiscountService;
-import com.hasiq.discount_codes_management.Service.ProductService;
-import com.hasiq.discount_codes_management.Service.PromoCodeService;
-import com.hasiq.discount_codes_management.Service.PurchaseService;
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
+import com.hasiq.discount_codes_management.dto.SalesReportDTO;
+import com.hasiq.discount_codes_management.entity.ProductEntity;
+import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
+import com.hasiq.discount_codes_management.entity.PurchaseEntity;
+import com.hasiq.discount_codes_management.repository.ProductRepository;
+import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
+import com.hasiq.discount_codes_management.repository.PurchaseRepository;
+import com.hasiq.discount_codes_management.service.DiscountService;
+import com.hasiq.discount_codes_management.service.ProductService;
+import com.hasiq.discount_codes_management.service.PromoCodeService;
+import com.hasiq.discount_codes_management.service.PurchaseService;
+import com.hasiq.discount_codes_management.tools.CurrencyEnum;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +56,7 @@ public class PurchaseServiceTests {
 
     @Autowired
     private ProductService productService;
-    
+
 
     @Test
     public void shouldPurchaseProduct(){

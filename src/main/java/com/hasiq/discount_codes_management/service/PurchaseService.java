@@ -1,13 +1,14 @@
-package com.hasiq.discount_codes_management.Service;
+package com.hasiq.discount_codes_management.service;
 
-import com.hasiq.discount_codes_management.DTO.SalesReportDTO;
-import com.hasiq.discount_codes_management.Entity.ProductEntity;
-import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
-import com.hasiq.discount_codes_management.Entity.PurchaseEntity;
-import com.hasiq.discount_codes_management.Repository.ProductRepository;
-import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
-import com.hasiq.discount_codes_management.Repository.PurchaseRepository;
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
+import com.hasiq.discount_codes_management.dto.SalesReportDTO;
+import com.hasiq.discount_codes_management.entity.ProductEntity;
+import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
+import com.hasiq.discount_codes_management.entity.PurchaseEntity;
+import com.hasiq.discount_codes_management.repository.ProductRepository;
+import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
+import com.hasiq.discount_codes_management.repository.PurchaseRepository;
+import com.hasiq.discount_codes_management.tools.CurrencyEnum;
+import jakarta.persistence.metamodel.Type;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -42,13 +44,13 @@ public class PurchaseService {
         this.promoCodeService = promoCodeService;
     }
 
-    public ResponseEntity<?> purchase(Long productId, String code){
-        Map<String, String> map =  discountService.getDiscountPrice(code, productId).getBody();
-        PromoCodeEntity promoCode = promoCodeService.findByCode(code).getBody();
+    public Object purchase(Long productId, String code){
+        Map<String, String> map =  discountService.getDiscountPrice(code, productId);
+        PromoCodeEntity promoCode = promoCodeService.findByCode(code);
         if(map == null || map.isEmpty())
-            return ResponseEntity.notFound().build();
+            return null;
         if(map.containsKey("Warning"))
-            return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+            return map;
         ProductEntity product = productRepository.findById(productId).get();
         PurchaseEntity purchase = new PurchaseEntity();
         purchase.setPurchaseDate(LocalDate.now());
@@ -64,12 +66,12 @@ public class PurchaseService {
         purchaseRepository.save(purchase);
         promoCode.setLeftUsages(promoCode.getLeftUsages() - 1);
         promoCodeRepository.save(promoCode);
-        return ResponseEntity.ok(purchase);
+        return purchase;
     }
 
-    public ResponseEntity<List<SalesReportDTO>> salesReport(){
+    public List<SalesReportDTO> salesReport(){
         List<Object[]> rows = purchaseRepository.salesReport();
-        return ResponseEntity.ok(mapToDTO(rows));
+        return mapToDTO(rows);
     }
 
     private List<SalesReportDTO> mapToDTO(List<Object[]> rows){

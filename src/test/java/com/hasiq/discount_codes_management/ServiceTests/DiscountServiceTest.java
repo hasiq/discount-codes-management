@@ -1,12 +1,11 @@
 package com.hasiq.discount_codes_management.ServiceTests;
 
-import com.hasiq.discount_codes_management.Entity.ProductEntity;
-import com.hasiq.discount_codes_management.Entity.PromoCodeEntity;
-import com.hasiq.discount_codes_management.Repository.ProductRepository;
-import com.hasiq.discount_codes_management.Repository.PromoCodeRepository;
-import com.hasiq.discount_codes_management.Service.DiscountService;
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
-import org.junit.jupiter.api.BeforeEach;
+import com.hasiq.discount_codes_management.entity.ProductEntity;
+import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
+import com.hasiq.discount_codes_management.repository.ProductRepository;
+import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
+import com.hasiq.discount_codes_management.service.DiscountService;
+import com.hasiq.discount_codes_management.tools.CurrencyEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -58,7 +57,7 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
+//        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
@@ -295,7 +294,7 @@ class DiscountServiceTest {
     }
 
     @Test
-    void shouldReturnNotFoundWithNoPormoCode(){
+    void shouldReturnNotFoundWithNoPromoCode(){
         ProductEntity productEntity = new ProductEntity();
         productEntity.setId(1L);
         productEntity.setName("Banana");

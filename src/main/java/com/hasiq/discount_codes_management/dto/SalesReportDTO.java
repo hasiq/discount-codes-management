@@ -1,6 +1,6 @@
-package com.hasiq.discount_codes_management.DTO;
+package com.hasiq.discount_codes_management.dto;
 
-import com.hasiq.discount_codes_management.Tools.CurrencyEnum;
+import com.hasiq.discount_codes_management.tools.CurrencyEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
