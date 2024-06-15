@@ -1,5 +1,6 @@
 package com.hasiq.discount_codes_management.ServiceTests;
 
+import com.hasiq.discount_codes_management.Exceptions.NotFoundException;
 import com.hasiq.discount_codes_management.entity.ProductEntity;
 import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
 import com.hasiq.discount_codes_management.repository.ProductRepository;
@@ -12,14 +13,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,14 +57,12 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-//        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
 
-        assertEquals(HttpStatus.OK, discountPrice.getStatusCode());
-        assertEquals("2.0",discountPrice.getBody().get("Price"));
+        assertEquals("2.0",discountPrice.get("Price"));
 
     }
     @Test
@@ -88,16 +86,14 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
 
 
-        assertEquals(HttpStatus.CONFLICT, discountPrice.getStatusCode());
-        assertEquals("3.0",discountPrice.getBody().get("Price"));
-        assertEquals("Discount Code Currency Mismatch",discountPrice.getBody().get("Warning"));
+        assertEquals("3.0",discountPrice.get("Price"));
+        assertEquals("Discount Code Currency Mismatch",discountPrice.get("Warning"));
     }
     @Test
     void shouldReturnWarningWithExpiredDate(){
@@ -120,16 +116,14 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
 
 
-        assertEquals(HttpStatus.CONFLICT, discountPrice.getStatusCode());
-        assertEquals("3.0",discountPrice.getBody().get("Price"));
-        assertEquals("Discount Code Expired",discountPrice.getBody().get("Warning"));
+        assertEquals("3.0",discountPrice.get("Price"));
+        assertEquals("Discount Code Expired",discountPrice.get("Warning"));
 
     }
 
@@ -154,16 +148,14 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
 
 
-        assertEquals(HttpStatus.CONFLICT, discountPrice.getStatusCode());
-        assertEquals("3.0",discountPrice.getBody().get("Price"));
-        assertEquals("Discount Code has no usages",discountPrice.getBody().get("Warning"));
+        assertEquals("3.0",discountPrice.get("Price"));
+        assertEquals("Discount Code has no usages",discountPrice.get("Warning"));
     }
 
     @Test
@@ -187,15 +179,13 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
 
 
-        assertEquals(HttpStatus.OK, discountPrice.getStatusCode());
-        assertEquals("0.0",discountPrice.getBody().get("Price"));
+        assertEquals("0.0",discountPrice.get("Price"));
     }
 
     @Test
@@ -219,15 +209,13 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
 
 
-        assertEquals(HttpStatus.OK, discountPrice.getStatusCode());
-        assertEquals("0.0",discountPrice.getBody().get("Price"));
+        assertEquals("0.0",discountPrice.get("Price"));
     }
 
     @Test
@@ -251,14 +239,12 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA4",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA4",1L);
 
-
-        assertEquals(HttpStatus.NOT_FOUND, discountPrice.getStatusCode());
+        assertThrows(NotFoundException.class,() -> discountService.getDiscountPrice("AAAA4",1L));
     }
 
     @Test
@@ -282,15 +268,13 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",1L);
 
 
-        assertEquals(HttpStatus.OK, discountPrice.getStatusCode());
-        assertEquals("0.0",discountPrice.getBody().get("Price"));
+        assertEquals("0.0",discountPrice.get("Price"));
     }
 
     @Test
@@ -314,14 +298,13 @@ class DiscountServiceTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
         when(productRepository.existsById(1L)).thenReturn(true);
         when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
-        when(promoCodeRepository.existsByCode("AAAA3")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA3")).thenReturn(promoCodeEntity);
 
 
-        ResponseEntity<Map<String, String>> discountPrice = discountService.getDiscountPrice("AAAA3",2L);
+        Map<String, String> discountPrice = discountService.getDiscountPrice("AAAA3",2L);
 
 
-        assertEquals(HttpStatus.NOT_FOUND, discountPrice.getStatusCode());
+        assertThrows(NotFoundException.class,() -> discountService.getDiscountPrice("AAAA3",2L));
     }
 }
 

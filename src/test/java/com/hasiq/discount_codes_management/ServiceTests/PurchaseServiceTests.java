@@ -1,5 +1,7 @@
 package com.hasiq.discount_codes_management.ServiceTests;
 
+import com.hasiq.discount_codes_management.Exceptions.BadRequestException;
+import com.hasiq.discount_codes_management.Exceptions.NotFoundException;
 import com.hasiq.discount_codes_management.dto.SalesReportDTO;
 import com.hasiq.discount_codes_management.entity.ProductEntity;
 import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
@@ -8,7 +10,6 @@ import com.hasiq.discount_codes_management.repository.ProductRepository;
 import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
 import com.hasiq.discount_codes_management.repository.PurchaseRepository;
 import com.hasiq.discount_codes_management.service.DiscountService;
-import com.hasiq.discount_codes_management.service.ProductService;
 import com.hasiq.discount_codes_management.service.PromoCodeService;
 import com.hasiq.discount_codes_management.service.PurchaseService;
 import com.hasiq.discount_codes_management.tools.CurrencyEnum;
@@ -17,10 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,8 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -54,8 +51,6 @@ public class PurchaseServiceTests {
     @InjectMocks
     private PurchaseService purchaseService;
 
-    @Autowired
-    private ProductService productService;
 
 
     @Test
@@ -67,9 +62,9 @@ public class PurchaseServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(new ResponseEntity<>(Map.of("Price","1.0"), HttpStatus.OK));
+        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(Map.of("Price","1.0"));
 
-        when(promoCodeService.findByCode("XXXX")).thenReturn(new ResponseEntity<>(promoCodeEntity, HttpStatus.OK));
+        when(promoCodeService.findByCode("XXXX")).thenReturn(promoCodeEntity);
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
@@ -84,8 +79,8 @@ public class PurchaseServiceTests {
         promoCodeEntity.setLeftUsages(promoCodeEntity.getLeftUsages() - 1);
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
-        assertEquals(HttpStatus.OK,purchaseService.purchase(1L,"XXXX").getStatusCode());
-        assertNotNull(purchaseService.purchase(1L,"XXXX").getBody());
+
+        assertNotNull(purchaseService.purchase(1L,"XXXX"));
     }
 
     @Test
@@ -117,9 +112,9 @@ public class PurchaseServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(new ResponseEntity<>(null, HttpStatus.OK));
+        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(null);
 
-        when(promoCodeService.findByCode("XXXX")).thenReturn(new ResponseEntity<>(promoCodeEntity, HttpStatus.OK));
+        when(promoCodeService.findByCode("XXXX")).thenReturn(promoCodeEntity);
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
@@ -134,7 +129,7 @@ public class PurchaseServiceTests {
         promoCodeEntity.setLeftUsages(promoCodeEntity.getLeftUsages() - 1);
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
-        assertEquals(HttpStatus.NOT_FOUND,purchaseService.purchase(1L,"XXXX").getStatusCode());
+        assertThrows(NotFoundException.class, () -> purchaseService.purchase(1L,"XXXX"));
     }
 
     @Test
@@ -146,9 +141,9 @@ public class PurchaseServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(new ResponseEntity<>(Map.of("Warning","Discount Code Currency Mismatch"), HttpStatus.OK));
+        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(Map.of("Warning","Discount Code Currency Mismatch"));
 
-        when(promoCodeService.findByCode("XXXX")).thenReturn(new ResponseEntity<>(promoCodeEntity, HttpStatus.OK));
+        when(promoCodeService.findByCode("XXXX")).thenReturn(promoCodeEntity);
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
@@ -163,7 +158,7 @@ public class PurchaseServiceTests {
         promoCodeEntity.setLeftUsages(promoCodeEntity.getLeftUsages() - 1);
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
-        assertEquals(HttpStatus.BAD_REQUEST,purchaseService.purchase(1L,"XXXX").getStatusCode());
+        assertThrows(BadRequestException.class, () -> purchaseService.purchase(1L,"XXXX"));
     }
 
     @Test
@@ -175,9 +170,9 @@ public class PurchaseServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(new ResponseEntity<>(Map.of("Price","1.0"), HttpStatus.OK));
+        when(discountService.getDiscountPrice("XXXX",1L)).thenReturn(Map.of("Price","1.0"));
 
-        when(promoCodeService.findByCode("XXXX")).thenReturn(new ResponseEntity<>(promoCodeEntity, HttpStatus.OK));
+        when(promoCodeService.findByCode("XXXX")).thenReturn(promoCodeEntity);
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
@@ -192,8 +187,8 @@ public class PurchaseServiceTests {
         promoCodeEntity.setLeftUsages(promoCodeEntity.getLeftUsages() - 1);
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
-        assertEquals(HttpStatus.OK,purchaseService.purchase(1L,"XXXX").getStatusCode());
-        assertNotNull(purchaseService.purchase(1L,"XXXX").getBody());
+
+        assertNotNull(purchaseService.purchase(1L,"XXXX"));
     }
 
 }

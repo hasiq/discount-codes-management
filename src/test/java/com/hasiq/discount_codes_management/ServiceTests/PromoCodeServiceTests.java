@@ -1,5 +1,7 @@
 package com.hasiq.discount_codes_management.ServiceTests;
 
+import com.hasiq.discount_codes_management.Exceptions.BadRequestException;
+import com.hasiq.discount_codes_management.Exceptions.NotFoundException;
 import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
 import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
 import com.hasiq.discount_codes_management.service.PromoCodeService;
@@ -10,14 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,7 +37,6 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.findAll()).thenReturn(List.of(promoCodeEntity));
 
         assertNotNull(promoCodeService.findAll());
-        assertEquals(HttpStatus.OK,promoCodeService.findAll().getStatusCode());
     }
 
     @Test
@@ -47,10 +46,9 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.existsByCode("AAAA")).thenReturn(true);
         when(promoCodeRepository.findByCode("AAAA")).thenReturn(promoCodeEntity);
 
-        PromoCodeEntity promoCode = promoCodeService.findByCode("AAAA").getBody();
+        PromoCodeEntity promoCode = promoCodeService.findByCode("AAAA");
 
         assertNotNull(promoCode);
-        assertEquals(HttpStatus.OK,promoCodeService.findByCode("AAAA").getStatusCode());
     }
 
     @Test
@@ -64,13 +62,12 @@ public class PromoCodeServiceTests {
 
 
         assertNotNull(promoCodeService.save(promoCodeEntity));
-        assertEquals(HttpStatus.CREATED,promoCodeService.save(promoCodeEntity).getStatusCode());
     }
 
     @Test
     public void shouldNotFindPromoCode() {
 
-        assertEquals(HttpStatus.NOT_FOUND,promoCodeService.findByCode("AAAA2").getStatusCode());
+        assertThrows(NotFoundException.class, () -> promoCodeService.findByCode("AAAA"));
     }
 
     @Test
@@ -83,7 +80,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
 
     @Test
@@ -96,7 +93,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
 
     @Test
@@ -109,7 +106,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
 
     @Test
@@ -122,7 +119,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
 
     @Test
@@ -135,7 +132,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
 
     @Test
@@ -148,7 +145,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
     @Test
     public void shouldNotSavePromoCodeWhenDiscountCodeIsLongerThan24Characters(){
@@ -160,7 +157,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
 
     @Test
@@ -173,7 +170,7 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
     @Test
     public void shouldNotSavePromoCodeWhenCodeIsNotAlphanumeric(){
@@ -185,6 +182,6 @@ public class PromoCodeServiceTests {
         when(promoCodeRepository.save(promoCodeEntity)).thenReturn(promoCodeEntity);
 
 
-        assertEquals(HttpStatus.BAD_REQUEST,promoCodeService.save(promoCodeEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> promoCodeService.save(promoCodeEntity));
     }
 }

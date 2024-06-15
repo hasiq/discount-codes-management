@@ -1,5 +1,7 @@
 package com.hasiq.discount_codes_management.ServiceTests;
 
+import com.hasiq.discount_codes_management.Exceptions.BadRequestException;
+import com.hasiq.discount_codes_management.Exceptions.NotFoundException;
 import com.hasiq.discount_codes_management.entity.ProductEntity;
 import com.hasiq.discount_codes_management.repository.ProductRepository;
 import com.hasiq.discount_codes_management.service.ProductService;
@@ -15,8 +17,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,7 +40,6 @@ public class ProductServiceTests {
         List<ProductEntity> products = productRepository.findAll();
 
         assertNotNull(products);
-        assertEquals(HttpStatus.OK,productService.findAll().getStatusCode());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ProductServiceTests {
 
         when(productRepository.save(productEntity)).thenReturn(productEntity);
 
-        assertEquals(HttpStatus.CREATED, productService.save(productEntity).getStatusCode());
+        assertNotNull(productService.save(productEntity));
     }
 
     @Test
@@ -56,8 +56,6 @@ public class ProductServiceTests {
         ProductEntity productEntity = new ProductEntity("Apple",2.0,"aaa", CurrencyEnum.PLN);
         ProductEntity productEntity2 = new ProductEntity("Banana",2.0,"aaa", CurrencyEnum.USD);
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
-
-        assertEquals(HttpStatus.OK, productService.update(productEntity2,1L).getStatusCode());
         assertEquals("Banana",productEntity.getName());
     }
 
@@ -67,7 +65,7 @@ public class ProductServiceTests {
         ProductEntity productEntity2 = new ProductEntity("Banana",2.0,"aaa", CurrencyEnum.USD);
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
-        assertEquals(HttpStatus.NOT_FOUND, productService.update(productEntity2,3L).getStatusCode());
+        assertThrows(NotFoundException.class, () -> productService.update(productEntity,3L));
     }
 
     @Test
@@ -75,7 +73,7 @@ public class ProductServiceTests {
         ProductEntity productEntity = new ProductEntity(null,2.0,"aaa", CurrencyEnum.PLN);
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
-        assertEquals(HttpStatus.BAD_REQUEST, productService.save(productEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> productService.save(productEntity));
     }
 
     @Test
@@ -83,7 +81,7 @@ public class ProductServiceTests {
         ProductEntity productEntity = new ProductEntity("Apple",2.0,"aaa", null);
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
-        assertEquals(HttpStatus.BAD_REQUEST, productService.save(productEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> productService.save(productEntity));
     }
 
     @Test
@@ -91,7 +89,7 @@ public class ProductServiceTests {
         ProductEntity productEntity = new ProductEntity("Apple",null,"aaa", CurrencyEnum.PLN);
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
-        assertEquals(HttpStatus.BAD_REQUEST, productService.save(productEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> productService.save(productEntity));
     }
 
     @Test
@@ -99,7 +97,7 @@ public class ProductServiceTests {
         ProductEntity productEntity = new ProductEntity("Apple",-1D,"aaa", CurrencyEnum.PLN);
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
-        assertEquals(HttpStatus.BAD_REQUEST, productService.save(productEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> productService.save(productEntity));
     }
 
     @Test
@@ -107,7 +105,7 @@ public class ProductServiceTests {
         ProductEntity productEntity = new ProductEntity("",1D,"aaa", CurrencyEnum.PLN);
         when(productRepository.findById(1L)).thenReturn(Optional.of(productEntity));
 
-        assertEquals(HttpStatus.BAD_REQUEST, productService.save(productEntity).getStatusCode());
+        assertThrows(BadRequestException.class, () -> productService.save(productEntity));
     }
 
 }
