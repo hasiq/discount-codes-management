@@ -24,15 +24,7 @@ public class PurchaseController {
 
     @PostMapping("/purchase")
     public ResponseEntity<?> purchase(@RequestBody DiscountDTO discountDTO){
-        Object purchase = purchaseService.purchase(discountDTO.getProductId(), discountDTO.getDiscountCode());
-        if(purchase == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        if(purchase instanceof PurchaseEntity){
-            return new ResponseEntity<>(purchase, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(purchase, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(purchaseService.purchase(discountDTO.getProductId(), discountDTO.getDiscountCode()), HttpStatus.OK);
     }
 
     @GetMapping("/report")

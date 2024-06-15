@@ -24,21 +24,11 @@ public class ProductController {
 
     @PostMapping("")
     public ResponseEntity<ProductEntity> create(@RequestBody ProductEntity productEntity){
-        ProductEntity save = productService.save(productEntity);
-        if(save != null) {
-            return new ResponseEntity<>(save, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(productService.save(productEntity), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductEntity> update(@PathVariable Long id, @RequestBody ProductEntity productEntity){
-        ProductEntity update = productService.update(productEntity, id);
-        if(update != null) {
-            return new ResponseEntity<>(update, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(productService.update(productEntity,id), HttpStatus.OK);
     }
 }

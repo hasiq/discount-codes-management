@@ -23,9 +23,6 @@ public class DiscountController {
         if(discountPrice.containsKey("Warning")) {
             return new ResponseEntity<>(discountPrice, HttpStatus.CONFLICT);
         }
-        else if (discountPrice == null) {
-            return new ResponseEntity<>(discountPrice, HttpStatus.NOT_FOUND);
-        }
         else
             return new ResponseEntity<>(discountPrice, HttpStatus.OK);
     }

@@ -2,6 +2,7 @@ package com.hasiq.discount_codes_management.controllers;
 
 import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
 import com.hasiq.discount_codes_management.service.PromoCodeService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,21 +25,11 @@ public class PromoCodesController {
 
     @GetMapping("/{code}")
     public ResponseEntity<PromoCodeEntity> findByCode(@PathVariable String code){
-        PromoCodeEntity byCode = promoCodeService.findByCode(code);
-        if(byCode != null){
-            return new ResponseEntity<>(byCode, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(promoCodeService.findByCode(code), HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<PromoCodeEntity> create(@RequestBody PromoCodeEntity promoCodeEntity){
-        PromoCodeEntity save = promoCodeService.save(promoCodeEntity);
-        if(save != null){
-            return new ResponseEntity<>(save, HttpStatus.CREATED);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<PromoCodeEntity> create(@RequestBody PromoCodeEntity promoCodeEntity) {
+            return new ResponseEntity<>(promoCodeService.save(promoCodeEntity), HttpStatus.CREATED);
     }
 }
