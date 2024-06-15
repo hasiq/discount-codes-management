@@ -2,8 +2,8 @@ package com.hasiq.discount_codes_management.service;
 
 import com.hasiq.discount_codes_management.entity.ProductEntity;
 import com.hasiq.discount_codes_management.repository.ProductRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.hasiq.discount_codes_management.Exceptions.BadRequestException;
+import com.hasiq.discount_codes_management.Exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class ProductService {
 
     public ProductEntity save(ProductEntity productEntity) {
         if((productEntity.getName() == null || productEntity.getPrice() == null || productEntity.getCurrency() == null) || (productEntity.getPrice() <= 0) || productEntity.getName().isBlank() || productEntity.getCurrency().toString().isBlank())
-            return null;
+            throw new BadRequestException("Invalid product data");
         return productRepository.save(productEntity);
     }
 
@@ -37,6 +37,6 @@ public class ProductService {
             productRepository.save(productEntity1);
             return productEntity1;
         }
-        return null;
+        throw new NotFoundException("Product not found");
     }
 }

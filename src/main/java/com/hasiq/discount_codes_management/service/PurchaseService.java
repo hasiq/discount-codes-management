@@ -8,16 +8,13 @@ import com.hasiq.discount_codes_management.repository.ProductRepository;
 import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
 import com.hasiq.discount_codes_management.repository.PurchaseRepository;
 import com.hasiq.discount_codes_management.tools.CurrencyEnum;
-import jakarta.persistence.metamodel.Type;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.hasiq.discount_codes_management.Exceptions.NotFoundException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +45,7 @@ public class PurchaseService {
         Map<String, String> map =  discountService.getDiscountPrice(code, productId);
         PromoCodeEntity promoCode = promoCodeService.findByCode(code);
         if(map == null || map.isEmpty())
-            return null;
+            throw new NotFoundException("Discount not found");
         if(map.containsKey("Warning"))
             return map;
         ProductEntity product = productRepository.findById(productId).get();

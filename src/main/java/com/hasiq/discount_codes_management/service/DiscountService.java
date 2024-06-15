@@ -4,8 +4,7 @@ import com.hasiq.discount_codes_management.entity.ProductEntity;
 import com.hasiq.discount_codes_management.entity.PromoCodeEntity;
 import com.hasiq.discount_codes_management.repository.ProductRepository;
 import com.hasiq.discount_codes_management.repository.PromoCodeRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.hasiq.discount_codes_management.Exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,8 +25,8 @@ public class DiscountService {
 
     public Map<String, String> getDiscountPrice(String code, Long id) {
 
-       if(productRepository.findById(id) == null || promoCodeRepository.findByCode(code) == null) {
-           return null;
+       if(productRepository.findById(id).isEmpty() || promoCodeRepository.findByCode(code) == null) {
+            throw new NotFoundException("Product or promo code not found");
            }
             ProductEntity product = productRepository.findById(id).get();
             PromoCodeEntity discountCode = promoCodeRepository.findByCode(code);
